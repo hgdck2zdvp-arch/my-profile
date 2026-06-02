@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>杨思静 | 奇妙美学世界</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', 'Noto Sans SC', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(145deg, #fdeff2 0%, #ffe6f0 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1.5rem;
+            position: relative;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* === 卡通动画背景：漂浮云朵+星星+小动物 === */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 245, 0.85);
+            border-radius: 1000px;
+            box-shadow: 0 15px 35px rgba(255, 200, 220, 0.2);
+            animation: floatCloud linear infinite;
+            backdrop-filter: blur(3px);
+        }
+
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background: inherit;
+            border-radius: 50%;
+        }
+
+        .cloud::before {
+            width: 65%;
+            height: 65%;
+            top: -30%;
+            left: 10%;
+        }
+
+        .cloud::after {
+            width: 45%;
+            height: 45%;
+            top: -20%;
+            right: 15%;
+        }
+
+        @keyframes floatCloud {
+            0% {
+                transform: translateX(-20%) translateY(0px);
+            }
+            50% {
+                transform: translateX(5%) translateY(-15px);
+            }
+            100% {
+                transform: translateX(-20%) translateY(0px);
+            }
+        }
+
+        .star {
+            position: absolute;
+            background-color: #fff9c4;
+            border-radius: 50%;
+            filter: blur(1px);
+            opacity: 0.7;
+            animation: twinkle 3s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0.2;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        .bubble {
+            position: absolute;
+            background: radial-gradient(circle at 30% 30%, rgba(255,245,240,0.6), rgba(255,210,220,0.3));
+            border-radius: 50%;
+            animation: bubbleUp 12s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes bubbleUp {
+            0% {
+                bottom: -10%;
+                transform: translateX(0) scale(0.6);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.7;
+            }
+            80% {
+                opacity: 0.8;
+            }
+            100% {
+                bottom: 110%;
+                transform: translateX(40px) scale(1.1);
+                opacity: 0;
+            }
+        }
+
+        /* 小动物漂浮 (猫爪/小蝴蝶) */
+        .paw {
+            position: absolute;
+            font-size: 2rem;
+            animation: drift 18s infinite linear;
+            opacity: 0.4;
+        }
+
+        @keyframes drift {
+            0% {
+                transform: translateX(-10vw) rotate(0deg);
+            }
+            100% {
+                transform: translateX(110vw) rotate(360deg);
+            }
+        }
+
+        /* 主卡片容器 */
+        .card-container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 28px;
+            backdrop-filter: blur(2px);
+        }
+
+        /* 左侧大卡片：个人核心 */
+        .profile-card {
+            flex: 1.2;
+            min-width: 280px;
+            background: rgba(255, 250, 245, 0.92);
+            backdrop-filter: blur(12px);
+            border-radius: 48px;
+            box-shadow: 0 25px 45px rgba(255, 105, 130, 0.2), 0 8px 18px rgba(0,0,0,0.05);
+            padding: 2rem 2rem 2.2rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 235, 225, 0.8);
+        }
+
+        .profile-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 35px 55px rgba(255, 120, 150, 0.3);
+            background: rgba(255, 252, 248, 0.96);
+        }
+
+        .name {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #E85D75, #B83B5E);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.4rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #c08497;
+            font-weight: 500;
+            border-left: 4px solid #f3a683;
+            padding-left: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .major-badge {
+            background: #ffe8e0;
+            border-radius: 60px;
+            padding: 8px 18px;
+            display: inline-block;
+            font-weight: 600;
+            color: #c45c7a;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .bio-text {
+            margin: 1.2rem 0;
+            line-height: 1.65;
+            color: #4a3b3f;
+            font-weight: 500;
+        }
+
+        .personality {
+            background: #fff0f3;
+            border-radius: 30px;
+            padding: 0.8rem 1.2rem;
+            margin: 1.5rem 0;
+            font-weight: 600;
+            color: #ad5a74;
+            display: inline-block;
+            width: auto;
+        }
+
+        .interests {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 1.4rem 0;
+        }
+
+        .interest-tag {
+            background: white;
+            border-radius: 50px;
+            padding: 6px 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #e66a88;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.02);
+            border: 1px solid #ffdfe6;
+            transition: 0.2s;
+        }
+
+        .interest-tag:hover {
+            background: #ffeef2;
+            transform: scale(1.02);
+        }
+
+        /* 右侧图片卡片：偶像展示 */
+        .celeb-grid {
+            flex: 1;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .card {
+            background: rgba(255, 248, 245, 0.92);
+            backdrop-filter: blur(12px);
+            border-radius: 44px;
+            padding: 1.5rem;
+            transition: all 0.25s ease;
+            border: 1px solid rgba(255, 220, 210, 0.7);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 252, 250, 0.96);
+            box-shadow: 0 22px 40px rgba(234, 104, 125, 0.15);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ba7a8f;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-left: 4px solid #f7b2a1;
+            padding-left: 12px;
+        }
+
+        .star-show {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        .star-item {
+            text-align: center;
+            width: calc(50% - 10px);
+            min-width: 110px;
+            background: rgba(255, 240, 235, 0.6);
+            border-radius: 36px;
+            padding: 12px 8px;
+            transition: 0.2s;
+        }
+
+        .star-item img {
+            width: 100%;
+            max-width: 130px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 60px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border: 3px solid white;
+            transition: 0.3s;
+            background-color: #f8e8e8;
+        }
+
+        .star-item img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 18px 28px rgba(0,0,0,0.15);
+        }
+
+        .star-name {
+            margin-top: 10px;
+            font-weight: 700;
+            color: #c16984;
+        }
+
+        .saying {
+            font-style: italic;
+            color: #966b7a;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+
+        .extra-love {
+            margin-top: 20px;
+            background: #fff6f0;
+            border-radius: 28px;
+            padding: 12px 16px;
+        }
+
+        .extra-love p {
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #b4758b;
+        }
+
+        .footer-message {
+            margin-top: 18px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #cda3b0;
+        }
+
+        .local-note {
+            background: #fff0e7;
+            border-radius: 20px;
+            padding: 8px 14px;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #bf8a9b;
+            margin-top: 12px;
+        }
+
+        @media (max-width: 780px) {
+            .name {
+                font-size: 2.4rem;
+            }
+            .profile-card, .card {
+                padding: 1.3rem;
+            }
+            .star-item {
+                width: 100%;
+            }
+        }
+
+        /* 小动物浮动随机速度 */
+        .paw:nth-child(odd) { animation-duration: 23s; animation-delay: -3s; }
+        .paw:nth-child(even) { animation-duration: 28s; animation-delay: -7s; }
+    </style>
+</head>
+<body>
+
+<div class="animated-bg">
+    <!-- 随机云朵 -->
+    <div class="cloud" style="width: 140px; height: 80px; top: 8%; left: -5%; animation-duration: 22s;"></div>
+    <div class="cloud" style="width: 190px; height: 100px; bottom: 12%; right: -3%; animation-duration: 28s; opacity: 0.7;"></div>
+    <div class="cloud" style="width: 110px; height: 65px; top: 20%; right: 15%; animation-duration: 18s;"></div>
+    <div class="cloud" style="width: 170px; height: 85px; bottom: 25%; left: 5%; animation-duration: 32s;"></div>
+
+    <!-- 星星点点 -->
+    <div class="star" style="width: 6px; height: 6px; top: 12%; left: 20%; animation-duration: 2s;"></div>
+    <div class="star" style="width: 4px; height: 4px; top: 35%; left: 85%; animation-duration: 1.8s;"></div>
+    <div class="star" style="width: 8px; height: 8px; top: 70%; left: 10%; animation-duration: 2.5s;"></div>
+    <div class="star" style="width: 5px; height: 5px; top: 45%; left: 55%; animation-duration: 1.5s;"></div>
+    <div class="star" style="width: 7px; height: 7px; top: 88%; left: 70%; animation-duration: 2.2s;"></div>
+
+    <!-- 上升气泡 -->
+    <div class="bubble" style="width: 45px; height: 45px; left: 15%; animation-delay: 0s; animation-duration: 11s;"></div>
+    <div class="bubble" style="width: 30px; height: 30px; left: 60%; animation-delay: 3s; animation-duration: 14s;"></div>
+    <div class="bubble" style="width: 60px; height: 60px; left: 80%; animation-delay: 6s; animation-duration: 17s;"></div>
+    <div class="bubble" style="width: 25px; height: 25px; left: 35%; animation-delay: 8s; animation-duration: 10s;"></div>
+
+    <!-- 卡通爪印/小动物 -->
+    <div class="paw" style="bottom: 5%; left: -5%;">🐾</div>
+    <div class="paw" style="top: 20%; left: 10%;">🦋</div>
+    <div class="paw" style="top: 60%; left: 85%;">🐱</div>
+    <div class="paw" style="bottom: 30%; left: 70%;">🐣</div>
+    <div class="paw" style="top: 5%; left: 55%;">🌸</div>
+</div>
+
+<div class="card-container">
+    <!-- 左侧：个人信息卡片 -->
+    <div class="profile-card">
+        <div class="name">杨思静</div>
+        <div class="subtitle">✦ 浪漫的理性主义者 ✦</div>
+        <div class="major-badge">⚓ 轮机工程 · 深蓝探索者</div>
+
+        <div class="bio-text">
+            🌊 航海与机械的严谨，在我这里沉淀为温柔而坚定的力量。<br>
+            喜欢在钢琴的黑白键上演绎逻辑，在运动场上释放活力，
+            在美食中品味生活的千滋百味。<br>
+            始终相信，世间所有赏心悦目的人和物，都值得用心收藏。
+        </div>
+
+        <div class="personality">
+            🧠 INTP 逻辑学家型人格 · 好奇无界 灵感飞驰
+        </div>
+
+        <div class="interests">
+            <span class="interest-tag">🎹 钢琴</span>
+            <span class="interest-tag">🏃‍♀️ 运动</span>
+            <span class="interest-tag">🍣 品味美食</span>
+            <span class="interest-tag">✨ 赏心悦目的一切</span>
+            <span class="interest-tag">🧩 抽象浪漫</span>
+        </div>
+
+        <div class="extra-love">
+            <p>💖 “美学是我对抗平庸的方式——从优雅的机械结构到银幕上动人的光影，从钢琴旋律到海风的味道，我热爱每一帧令我心动的生活片段。”</p>
+            <p style="margin-top: 8px;">🌟 我喜欢杨洋的清澈坚定 & 迪丽热巴的灵动自信，他们诠释了光芒与努力并存的赏心悦目。</p>
+        </div>
+        <div class="footer-message">
+            ✨ keep curious, keep aesthetic ✨
+        </div>
+    </div>
+
+    <!-- 右侧: 明星及美图卡片 (本地图片版本) -->
+    <div class="celeb-grid">
+        <!-- 偶像展示卡片 使用本地图片 yangyang.jpg / dilireba.jpg -->
+        <div class="card">
+            <div class="card-title">
+                🌟 荧幕星光 · 令人心动的存在
+            </div>
+            <div class="star-show">
+                <div class="star-item">
+                    <!-- 本地图片：杨洋，请将照片命名为 yangyang.jpg 放在同一目录 -->
+                    <img src="yangyang.jpg" alt="杨洋 · 清隽如风" 
+                         onerror="this.onerror=null; this.src='https://picsum.photos/id/104/200/200'; this.alt='请将杨洋照片命名为 yangyang.jpg 放在本文件夹';">
+                    <div class="star-name">✨ 杨洋 Yang Yang</div>
+                    <div class="saying">“清隽如风，坚毅温暖”</div>
+                </div>
+                <div class="star-item">
+                    <!-- 本地图片：迪丽热巴，请将照片命名为 dilireba.jpg 放在同一目录 -->
+                    <img src="dilireba.jpg" alt="迪丽热巴 · 明艳动人"
+                         onerror="this.onerror=null; this.src='https://picsum.photos/id/64/200/200'; this.alt='请将迪丽热巴照片命名为 dilireba.jpg 放在本文件夹';">
+                    <div class="star-name">💖 迪丽热巴 Dilraba</div>
+                    <div class="saying">“明艳动人，率真璀璨”</div>
+                </div>
+            </div>
+            <div class="local-note">
+                📸 温馨提示：请将杨洋照片命名为 <strong>yangyang.jpg</strong> ，迪丽热巴照片命名为 <strong>dilireba.jpg</strong> <br>
+                放在与本网页相同的文件夹内，即可显示专属明星壁纸。✨ 当前若显示默认图，替换后刷新即呈现。
+            </div>
+        </div>
+
+        <!-- 美丽事物卡片 + 爱好详细 -->
+        <div class="card">
+            <div class="card-title">
+                🍃 我的诗意收藏夹
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between;">
+                <div style="flex:1; min-width: 100px;">
+                    <div style="font-weight: 700; color:#e27492;">🎵 琴键上的时光</div>
+                    <div style="font-size:0.8rem;">肖邦夜曲、久石让、即兴幻想</div>
+                </div>
+                <div style="flex:1; min-width: 100px;">
+                    <div style="font-weight: 700; color:#e27492;">🏄‍♀️ 动态美学</div>
+                    <div style="font-size:0.8rem;">瑜伽 · 游泳 · 慢跑</div>
+                </div>
+                <div style="flex:1; min-width: 100px;">
+                    <div style="font-weight: 700; color:#e27492;">🍜 风物食集</div>
+                    <div style="font-size:0.8rem;">日料· 甜品 · 隐匿小馆</div>
+                </div>
+            </div>
+            <div style="margin-top: 18px; background: linear-gradient(120deg, #ffece4, #fff7f0); border-radius: 36px; padding: 12px 16px;">
+                <p style="display: flex; align-items: center; gap: 8px;">🐾 近期心动： 夕阳下的港口 & 浪漫电影美学 & 手冲咖啡香气</p>
+                <div style="display: flex; gap: 12px; margin-top: 8px;">
+                    <span>📸 镜头之下赏心时刻</span>
+                    <span>🎨 艺术展漫步者</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 加一个 mbti 小趣闻卡片 -->
+        <div class="card">
+            <div class="card-title">
+                🌙 INTP · 思维游乐园
+            </div>
+            <p style="line-height: 1.5; color:#5d434b;">作为典型的INTP，我热衷于解构世界的逻辑，却也为纯粹的浪漫折服。喜欢观察云的变化、研究船舶流体力学与钢琴声学的共鸣，也喜欢深夜写些古怪的诗句。我坚信——理性与感性可以共舞出最迷人的轨迹。</p>
+            <div style="margin-top: 15px; display: flex; gap: 8px;">
+                <span class="interest-tag">💡 创意脑洞</span>
+                <span class="interest-tag">📚 知识渴望</span>
+                <span class="interest-tag">🤝 包容开放</span>
+            </div>
+            <div class="footer-message" style="margin-top: 15px;">
+                “用逻辑解构，用心灵感受 — 我是一个温柔的矛盾体”
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 本版本采用本地图片：确保同目录下有 yangyang.jpg 和 dilireba.jpg
+    // 同时图片优雅降级：如果本地图片未找到，展示优雅示意文字但仍然保持美观。
+    // 用户可自行替换图片，无需修改代码。
+    console.log("✨ 杨思静的个人网站 - 本地图片模式，请将杨洋/迪丽热巴照片放入同目录并命名为 yangyang.jpg / dilireba.jpg");
+</script>
+</body>
+</html>
